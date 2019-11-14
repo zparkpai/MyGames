@@ -179,7 +179,7 @@ public class EnamyControl : MonoBehaviour
         {
             JobDone.mar.GetZero();//最后地板重置
             Jd3.SetActive(true);//回合结束按钮显示
-            GamesChoose.Powers += 3;//我方能量加三
+            GamesChoose.Powers += 1;//我方能量加三
         }
     }
     void move(CubeMark NeedNum)
@@ -229,7 +229,7 @@ public class EnamyControl : MonoBehaviour
         {
             if (ss.IsMyplayers==2&&ss.IssmMo == true && Enamycard[i].GetComponent<EnamyCardAttribute>().Ishero == true && ss.IsbigMO == false)
             {
-                GameObject Enah = GameObject.Instantiate(Enamycard[i].GetComponent<EnamyCardAttribute>().EnamyHero, new Vector3(ss.transform.position.x, ss.transform.position.y + 1, ss.transform.position.z), Quaternion.Euler(new Vector3(0, 180, 0)));
+                GameObject Enah = GameObject.Instantiate(Enamycard[i].GetComponent<EnamyCardAttribute>().EnamyHero, new Vector3(ss.transform.position.x, ss.transform.position.y + 2, ss.transform.position.z), Quaternion.Euler(new Vector3(0, 180, 0)));
                 ss.IsbigMO = Enah;//英雄对象的创建并于对应地板赋值
                 ss.IsbiMO = true;
                 ss.Thelifes += Enamycard[i].GetComponent<EnamyCardAttribute>().EnamyLife;

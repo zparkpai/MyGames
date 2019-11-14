@@ -21,6 +21,15 @@ public class Greedy : MonoBehaviour
     }
     public GameObject Greedys(CubeMark ss)
     {
+        CouldMove.Clear();
+        for (int i = 0; i < ss.Ontrigglesobj.Count; i++)
+        {
+            if (ss.Ontrigglesobj[i].GetComponent<CubeMark>().Isbulled==false)
+            {
+                CouldMove.Add(ss.Ontrigglesobj[i]);
+
+            }
+        }
         if (ss == EnamyStart.GetComponent<CubeMark>())
         {
             for (int i = 0; i < ss.Ontrigglesobj.Count; i++)
@@ -32,86 +41,107 @@ public class Greedy : MonoBehaviour
             }
 
         }
-        for (int q = 0; q < EnamyStart.GetComponent<CubeMark>().Ontrigglesobj.Count; q++)
+        else
         {
-            for (int p = 0; p < EnamyStart.GetComponent<CubeMark>().Ontrigglesobj[q].GetComponent<CubeMark>().Ontrigglesobj.Count; p++)
+            for (int q = 0; q < EnamyStart.GetComponent<CubeMark>().Ontrigglesobj.Count; q++)
             {
-                if (EnamyStart.GetComponent<CubeMark>().Ontrigglesobj[q].GetComponent<CubeMark>().Ontrigglesobj[p].GetComponent<CubeMark>().IsMyplayers == 1)
+                for (int p = 0; p < EnamyStart.GetComponent<CubeMark>().Ontrigglesobj[q].GetComponent<CubeMark>().Ontrigglesobj.Count; p++)
                 {
-                    return BackMove(ss);//若我方进入敌方危险范围则敌方回防
+                    if (EnamyStart.GetComponent<CubeMark>().Ontrigglesobj[q].GetComponent<CubeMark>().IsMyplayers == 1)
+                    {
+                        return BackMove(ss);//若我方进入敌方危险范围则敌方回防
+                    }
+                    else if (EnamyStart.GetComponent<CubeMark>().Ontrigglesobj[q].GetComponent<CubeMark>().Ontrigglesobj[p].GetComponent<CubeMark>().IsMyplayers == 1)
+                    {
+                        return BackMove(ss);//若我方进入敌方危险范围则敌方回防
+                    }
                 }
             }
-        }
-        Could = null;
-        CouldMove.Clear();
-        for (int i = 0; i < ss.Ontrigglesobj.Count; i++)
-        {
-            CouldMove.Add(ss.Ontrigglesobj[i]);
-        }
-        for (int j = 0; j < CouldMove.Count; j++)
-        {
-            if (CouldMove[j].GetComponent<CubeMark>().Isbulled == false)
+            Could = null;
+            for (int j = 0; j < CouldMove.Count; j++)
             {
-
-                for (int k = 0; k < CouldMove[j].GetComponent<CubeMark>().Ontrigglesobj.Count; k++)
+                if (Vector3.Distance(ss.transform.position, Starts.transform.position) <= 30)
                 {
-                    if (CouldMove[j].GetComponent<CubeMark>().Ontrigglesobj[k].GetComponent<CubeMark>().IsMyplayers == 1)
-                    {
-                        Could = CouldMove[j].GetComponent<CubeMark>().Ontrigglesobj[k];
-                        if (ss.Thelifes > Could.GetComponent<CubeMark>().Thelifes && Could.GetComponent<CubeMark>().Thelifes != 0)
-                        {
-                            return CouldMove[j];//能移动位置攻击范围生命大于我方则返回该位置
-                        }
-                    }
+                    return EndMove(ss);//若离我方关键点小于三个地板则向我方关键点移动
                 }
-                if (Could != null)
+                if (ss.Ontrigglesobj[j].GetComponent<CubeMark>().Isbulled == false)
                 {
-                    if (Vector3.Distance(CouldMove[j].transform.position, Starts.transform.position) <= 24)
+
+                    for (int k = 0; k < ss.Ontrigglesobj[j].GetComponent<CubeMark>().Ontrigglesobj.Count; k++)
                     {
-                        return EndMove(ss);//若离我方关键点小于三个地板则向我方关键点移动
-                    }
-                    for (int i = 0; i < CouldMove[j].GetComponent<CubeMark>().Ontrigglesobj.Count; i++)
-                    {
-                        if (!CouldMove[j].GetComponent<CubeMark>().Ontrigglesobj[i].GetComponent<CubeMark>().Isbulled)
+                        if (ss.Ontrigglesobj[j].GetComponent<CubeMark>().Ontrigglesobj[k].GetComponent<CubeMark>().IsMyplayers == 1)
                         {
-                            Empty = true;
+                            Could = ss.Ontrigglesobj[j].GetComponent<CubeMark>().Ontrigglesobj[k];
+                            if (ss.Thelifes > Could.GetComponent<CubeMark>().Thelifes && Could.GetComponent<CubeMark>().Thelifes != 0)
+                            {
+                                return ss.Ontrigglesobj[j];//能移动位置攻击范围生命大于我方则返回该位置
+                            }
                         }
                         else
                         {
-                            Empty = false;
+                            if (Could != null)
+                            {
+
+
+                                for (int i = 0; i < ss.Ontrigglesobj[j].GetComponent<CubeMark>().Ontrigglesobj.Count; i++)
+                                {
+                                    if (!ss.Ontrigglesobj[j].GetComponent<CubeMark>().Ontrigglesobj[i].GetComponent<CubeMark>().Isbulled)
+                                    {
+                                        Empty = true;
+                                    }
+                                    else
+                                    {
+                                        Empty = false;
+                                    }
+                                }
+                                if (Empty)
+                                {
+                                    return ss.Ontrigglesobj[j];//判断可移动位置的攻击范围是否有我方单位,没有则移动到该位置
+                                }
+                            }
+                            else
+                            {
+                                return EndMove(ss);
+                            }
                         }
                     }
-                    if (Empty)
-                    {
-                        return CouldMove[j];//判断可移动位置的攻击范围是否有我方单位,没有则移动到该位置
-                    }
+
+
                 }
-            }
-            else
-            {
-                return EndMove(ss);
+                else
+                {
+                    return EndMove(ss);
+                }
             }
         }
         return EndMove(ss);
     }
+
     GameObject EndMove(CubeMark ss)
     {
-        GameObject tt = CouldMove[0];
-        for (int i = 0; i < CouldMove.Count - 1; i++)
+        if (CouldMove.Count>=1)
         {
-            if (CouldMove[i].GetComponent<CubeMark>().IsMyplayers == 0)
+            GameObject tt = CouldMove[0];
+
+            for (int i = 1; i < CouldMove.Count - 1; i++)
             {
+
                 if (CouldMove[i].transform.position == Starts.transform.position)
                 {
                     return CouldMove[i];//若我方关键点在该单位可移动位置上则返回该可移动位置
                 }
-                if (Vector3.Distance(CouldMove[i].transform.position, Starts.transform.position) > Vector3.Distance(CouldMove[i + 1].transform.position, Starts.transform.position))
+                else if (CouldMove[i + 1] && Vector3.Distance(CouldMove[i].transform.position, Starts.transform.position) > Vector3.Distance(CouldMove[i + 1].transform.position, Starts.transform.position))
                 {
                     tt = CouldMove[i + 1];//距离我方关键点最近的一个可移动位置
                 }
+
             }
+            return tt;//返回距离我方关键点最近的一个可移动位置
         }
-        return tt;//返回距离我方关键点最近的一个可移动位置
+        else
+        {
+            return ss.gameObject;
+        }
     }
     GameObject BackMove(CubeMark ss)
     {

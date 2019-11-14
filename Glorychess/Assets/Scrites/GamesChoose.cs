@@ -26,6 +26,7 @@ public class GamesChoose : MonoBehaviour
     }
     public void ResetGames()
     {
+        Powers = 10;
         SceneManager.LoadScene("StartChess");//重新加载游戏场景
     }
     public void BackItems()

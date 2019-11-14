@@ -70,7 +70,7 @@ MonoBehaviour:
   EnamyLife: 5000
   EnamyAttack: 300
   EnamyHero: {fileID: 0}
-  EnamyXb: {fileID: 1118287912206100, guid: 1bbfdc61a954d39408bf4d3e80e933c6, type: 2}
+  EnamyXb: {fileID: 1324235921827000, guid: 25b74f634cb80b54c96d459ca6c9734d, type: 2}
   Ishero: 0
   NeedCost: 550
 --- !u!222 &222030956346820620

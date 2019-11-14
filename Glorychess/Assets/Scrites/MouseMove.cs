@@ -84,7 +84,7 @@ public class MouseMove : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     Mic.kaishi();
                     Destroy(this.gameObject);//卡片销毁(创建完成后)
                     GamesChoose.Powers -= Cost;
-                    Hero = GameObject.Instantiate(Themodel, new Vector3(hit.collider.gameObject.transform.position.x, hit.collider.gameObject.transform.position.y + 1, hit.collider.gameObject.transform.position.z), Quaternion.identity);
+                    Hero = GameObject.Instantiate(Themodel, new Vector3(hit.collider.gameObject.transform.position.x, hit.collider.gameObject.transform.position.y + 2, hit.collider.gameObject.transform.position.z), Quaternion.identity);
                     HitCube.IsbigMO = Hero;
                     HitCube.IsbiMO = true;
                     HitCube.Thelifes += 2000;

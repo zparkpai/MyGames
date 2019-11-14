@@ -42,7 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnamyLife: 800
   EnamyAttack: 800
-  EnamyHero: {fileID: 1367609695943218, guid: c18410c055fed454086641b107b7b9c3, type: 2}
+  EnamyHero: {fileID: 1803954866191314, guid: 380398b0da3987f4f9c65c450663d7a9, type: 2}
   EnamyXb: {fileID: 0}
   Ishero: 1
   NeedCost: 160
